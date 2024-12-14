@@ -13,8 +13,13 @@ export default function LoginForm() {
     e.preventDefault();
     setError('');
 
+    console.log("Submitted Email:", formData.email);
+    console.log("Submitted Password:", formData.password);
+
     // Admin credentials verification
     if (formData.email === 'adminkofi@st.ug.edu.gh' && formData.password === '252628') {
+      console.log("Credentials matched. Logging in...");
+
       // Create admin user object
       const adminUser = {
         id: 'admin1',
@@ -25,12 +30,14 @@ export default function LoginForm() {
 
       // Store admin data in localStorage
       localStorage.setItem('currentUser', JSON.stringify(adminUser));
+      console.log("User stored in localStorage:", adminUser);
 
       // Navigate to admin dashboard
       navigate('/admin-dashboard');
       return;
     }
 
+    console.log("Invalid credentials.");
     setError('Invalid credentials. Please try again.');
   };
 

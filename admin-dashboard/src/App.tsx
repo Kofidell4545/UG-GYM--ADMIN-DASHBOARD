@@ -4,6 +4,10 @@ import './App.css';
 import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 
+import './index.css';
+
+
+
 // Add type for ProtectedRoute
 interface ProtectedRouteProps {
   children: React.ReactNode;
