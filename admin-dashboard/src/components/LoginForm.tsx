@@ -1,50 +1,43 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    
+    try {
+      const response = await fetch("http://localhost:4000/api/admins/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password
+        }),
+      });
 
-    console.log("Submitted Email:", formData.email);
-    console.log("Submitted Password:", formData.password);
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.message);
+        return;
+      }
 
-    // Admin credentials verification
-    if (formData.email === 'adminkofi@st.ug.edu.gh' && formData.password === '252628') {
-      console.log("Credentials matched. Logging in...");
-
-      // Create admin user object
-      const adminUser = {
-        id: 'admin1',
-        name: 'Admin User',
-        email: formData.email,
-        userType: 'admin',
-      };
-
-      // Store admin data in localStorage
-      localStorage.setItem('currentUser', JSON.stringify(adminUser));
-      console.log("User stored in localStorage:", adminUser);
-
-      // Navigate to admin dashboard
-      navigate('/admin-dashboard');
-      return;
+      const data = await response.json();
+      localStorage.setItem("adminToken", data.token) // save token to local storge
+      navigate("/admin-dashboard") // redirect if login successfull
+    } catch (error) {
+      setError("An error occured while loggin. Please try again")
     }
-
-    console.log("Invalid credentials.");
-    setError('Invalid credentials. Please try again.');
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-[#002147] px-4">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleLogin}
         className="w-full max-w-md bg-white rounded-lg shadow-2xl p-10 space-y-6"
       >
         <h2 className="text-3xl font-extrabold text-[#002147] text-center mb-4">
@@ -66,9 +59,9 @@ export default function LoginForm() {
               type="email"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#002147] focus:border-[#002147]"
-              value={formData.email}
+              value={email}
               onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
+                setEmail(e.target.value)
               }
               placeholder="Enter admin email"
             />
@@ -82,9 +75,9 @@ export default function LoginForm() {
               type="password"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#002147] focus:border-[#002147]"
-              value={formData.password}
+              value={password}
               onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
+                setPassword(e.target.value )
               }
               placeholder="Enter admin password"
             />
