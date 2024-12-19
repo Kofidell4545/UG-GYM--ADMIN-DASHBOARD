@@ -6,9 +6,12 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
     
     try {
       const response = await fetch("http://localhost:4000/api/admins/login", {
@@ -23,6 +26,7 @@ export default function LoginForm() {
       if (!response.ok) {
         const data = await response.json();
         setError(data.message);
+        setIsLoading(false)
         return;
       }
 
@@ -31,6 +35,8 @@ export default function LoginForm() {
       navigate("/admin-dashboard") // redirect if login successfull
     } catch (error) {
       setError("An error occured while loggin. Please try again")
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -86,9 +92,12 @@ export default function LoginForm() {
 
         <button
           type="submit"
-          className="w-full bg-[#002147] text-white py-3 rounded-lg font-bold text-lg hover:bg-[#003167] transition-colors"
+          disabled={isLoading}
+          className={`w-full bg-[#002147] text-white py-3 rounded-lg font-bold text-lg hover:bg-[#003167] transition-colors ${
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-sm text-center text-gray-600 mt-6">
