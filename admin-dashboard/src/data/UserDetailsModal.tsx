@@ -5,22 +5,22 @@ import { X } from 'lucide-react';
 interface UserDetailsModalProps {
   user: {
     id: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
+    medicalCondition: string;
+    phone: string;
     userType: string;
-    contactNumber?: string;
-    universityId?: string;
-    hallOfResidence?: string;
-    department?: string;
-    medicalCondition?: string;
-    subscription?: {
-      id: string;
-      userId: string;
-      status: string;
-      duration: string;
+    universityId: string;
+    hallOfResidence: string;
+    department: string;
+    password: string;
+    subscription: {
+      package: string;
       price: number;
       startDate: string;
       endDate: string;
+      status: string;
     };
   };
   onClose: () => void;
