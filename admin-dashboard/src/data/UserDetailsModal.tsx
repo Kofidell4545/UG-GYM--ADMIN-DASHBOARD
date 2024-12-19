@@ -2,30 +2,6 @@ import React from 'react';
 import { X } from 'lucide-react';
 
 // Define the props for UserDetailsModal
-interface UserDetailsModalProps {
-  user: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    medicalCondition: string;
-    phone: string;
-    userType: string;
-    universityId: string;
-    hallOfResidence: string;
-    department: string;
-    password: string;
-    subscription: {
-      package: string;
-      price: number;
-      startDate: string;
-      endDate: string;
-      status: string;
-    };
-  };
-  onClose: () => void;
-  onUpdateStatus: (userId: string, status: string) => void;
-}
 
 const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, onClose, onUpdateStatus }) => {
   return (
@@ -43,7 +19,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, onClose, onUp
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Name</h3>
-                <p className="mt-1 text-lg text-gray-900">{user.name}</p>
+                <p className="mt-1 text-lg text-gray-900">{user.firstName} {user.lastName}</p>
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-500">User Type</h3>
@@ -55,7 +31,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, onClose, onUp
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Phone</h3>
-                <p className="mt-1 text-lg text-gray-900">{user.contactNumber}</p>
+                <p className="mt-1 text-lg text-gray-900">{user.phone}</p>
               </div>
               {user.universityId && (
                 <div>
@@ -90,7 +66,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, onClose, onUp
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Plan</h4>
-                    <p className="mt-1 text-gray-900 capitalize">{user.subscription.duration} Plan</p>
+                    <p className="mt-1 text-gray-900 capitalize">{user.subscription.startDate} Plan</p>
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Price</h4>
