@@ -7,20 +7,19 @@ import UserDetailsModal from '../data/UserDetailsModal';
 // Define the User interface
 interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   userType: string;
+  phone: string;
   password: string;
-  universityId?: string;
-  contactNumber?: string;
+  universityId?: number;
   subscription?: {
-    id: string;
-    userId: string;
-    status: string;
-    duration: string;
+    package: string;
     price: number;
     startDate: string;
     endDate: string;
+    status: boolean;
   };
   medicalCondition?: string;
   hallOfResidence?: string;
@@ -47,10 +46,6 @@ export default function AdminDashboard({ location }: AdminDashboardProps) {
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [usersData, setUsersData] = useState<UsersData>(sampleUsers);
-
-  if (!user || user.userType !== 'admin') {
-    return <Navigate to="/login" replace />;
-  }
 
   const users = Object.values(usersData).filter(u => u.userType !== 'admin');
   
